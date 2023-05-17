@@ -26,6 +26,7 @@ type Db interface {
 	Save(value interface{}) *gorm.DB
 	Create(value interface{}) *gorm.DB
 	Update(attrs ...interface{}) *gorm.DB
+	Delete(value interface{}, where ...interface{}) *gorm.DB
 }
 
 func Connect() (Db, error) {

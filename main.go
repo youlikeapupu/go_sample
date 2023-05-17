@@ -36,6 +36,8 @@ func main() {
 
 	router.POST("/product/updateproduct", controller.UpdateProduct)
 
+	router.POST("/product/delproduct", controller.DelProduct)
+
     router.Run("localhost:5001")
 }
 

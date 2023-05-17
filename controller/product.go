@@ -31,6 +31,10 @@ type ProductRes struct {
     CreateTime time.Time  `form:"createat" gorm:"column:createat"`
 }
 
+type ProductDel struct {
+    ID int `form:"id" json:"id"`
+}
+
 func CreateProduct(c *gin.Context) {
     db, err := database.Connect()
     if err != nil {
@@ -74,7 +78,7 @@ func UpdateProduct(c *gin.Context) {
     if err != nil {
         fmt.Println(err)
     }
-    
+
     // 接收post參數
     var product ProductReq
     c.BindJSON(&product)
@@ -99,4 +103,27 @@ func UpdateProduct(c *gin.Context) {
         "data":  product,
         "result":  "ok",
     })
+}
+
+func DelProduct(c *gin.Context) {
+    db, err := database.Connect()
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    // 接收post參數
+    var product ProductReq
+    c.BindJSON(&product)
+
+    fmt.Println(product.ID)
+
+    data := []Product{}
+
+    if !db.Where("id = ?", product.ID).First(&data).RecordNotFound() {
+        fmt.Println("User can't be found after delete")
+    }
+
+    if err := db.Where("id = ?", product.ID).Delete(&data).Error; err != nil {
+        fmt.Println("No error should happen when delete a record")
+    }
 }
