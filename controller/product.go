@@ -69,7 +69,7 @@ func CreateProduct(c *gin.Context) {
     })
 }
 
-func UpdateProduct(c *gin.Context) {
+func UpdateProduct1(c *gin.Context) {
     // 接收post參數
     var product ProductReq
     c.BindJSON(&product)
