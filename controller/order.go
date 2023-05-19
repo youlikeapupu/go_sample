@@ -60,7 +60,7 @@ func CreateOrder(c *gin.Context) {
     // 計算產品總數量
     amount := 0
     for _, v := range order.Spec {
-    	amount += v.Quan
+        amount += v.Quan
     }
 
     specJson, err := json.Marshal(order.Spec)
@@ -85,12 +85,12 @@ func CreateOrder(c *gin.Context) {
         Status: order.Status,
     }
 
-	result := db.Table("orders").Create(&data)
+    result := db.Table("orders").Create(&data)
 
-	ProcessResponse(result, err)   
+    ProcessResponse(result, err)   
     return
 
-	// c.JSON(http.StatusOK, gin.H{
+    // c.JSON(http.StatusOK, gin.H{
  //        "result":  "ok",
  //        "error":  result.Error,
  //        "recordsCount": result.RowsAffected,
