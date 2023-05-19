@@ -38,6 +38,8 @@ func main() {
 
 	router.POST("/product/delproduct", controller.DelProduct)
 
+	router.POST("/order/createorder", controller.CreateOrder)
+
     router.Run("localhost:5001")
 }
 
