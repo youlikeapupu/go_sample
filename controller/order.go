@@ -7,6 +7,7 @@ import (
     // "time"
     // "reflect"
     "encoding/json"
+    "errors"
     "learning-go/exception"
 )
 
@@ -66,7 +67,7 @@ func CreateOrder(c *gin.Context) {
     specJson, err := json.Marshal(order.Spec)
     if err != nil {
         // fmt.Println(err)
-        err = errors.New("200")
+        err = errors.New("1111")
         // return
     }
 
@@ -87,7 +88,7 @@ func CreateOrder(c *gin.Context) {
 
     result := db.Table("orders").Create(&data)
 
-    ProcessResponse(result, err)   
+    ProcessResponse(c, result, err)
     return
 
     // c.JSON(http.StatusOK, gin.H{
@@ -98,14 +99,14 @@ func CreateOrder(c *gin.Context) {
 }
 
 
-func ProcessResponse (data interface{}, err error) {
+func ProcessResponse (c *gin.Context, data interface{}, err error) {
     if err != nil {
         c.JSON(http.StatusOK, gin.H{
             "result":  "not ok",
             "error_code":  err.Error(),
             "error_message": exception.GetException(err.Error()),
             "data": data,
-        }
+        })
         return
     }
 
@@ -114,6 +115,6 @@ func ProcessResponse (data interface{}, err error) {
         "error_code":  nil,
         "error_message": "",
         "data": data,
-    }
+    })
     return
 }
