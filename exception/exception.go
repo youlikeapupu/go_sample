@@ -24,3 +24,25 @@ func GetMessage(s int) string {
 
     return msgMap[s]
 }
+
+var Message = map[string]string{
+    "1111": "a",
+    "1222": "b",
+    "1333": "c",
+    "1444": "d",
+    "1555": "e",
+    "1666": "f",
+    "1777": "g",
+}
+
+
+func GetException(code string) (message string) {
+    message = "unknow error"
+
+    errorMsg, ok := Message[code]
+    if ok {
+        message = errorMsg
+    }
+
+    return
+}

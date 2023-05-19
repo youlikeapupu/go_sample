@@ -7,6 +7,7 @@ import (
     // "time"
     // "reflect"
     "encoding/json"
+    "learning-go/exception"
 )
 
 type Order struct {
@@ -64,8 +65,9 @@ func CreateOrder(c *gin.Context) {
 
     specJson, err := json.Marshal(order.Spec)
     if err != nil {
-        fmt.Println(err)
-        return
+        // fmt.Println(err)
+        err = errors.New("200")
+        // return
     }
 
     data := Order{
@@ -85,9 +87,33 @@ func CreateOrder(c *gin.Context) {
 
 	result := db.Table("orders").Create(&data)
 
-	c.JSON(http.StatusOK, gin.H{
+	ProcessResponse(result, err)   
+    return
+
+	// c.JSON(http.StatusOK, gin.H{
+ //        "result":  "ok",
+ //        "error":  result.Error,
+ //        "recordsCount": result.RowsAffected,
+ //    })
+}
+
+
+func ProcessResponse (data interface{}, err error) {
+    if err != nil {
+        c.JSON(http.StatusOK, gin.H{
+            "result":  "not ok",
+            "error_code":  err.Error(),
+            "error_message": exception.GetException(err.Error()),
+            "data": data,
+        }
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{
         "result":  "ok",
-        "error":  result.Error,
-        "recordsCount": result.RowsAffected,
-    })
+        "error_code":  nil,
+        "error_message": "",
+        "data": data,
+    }
+    return
 }
