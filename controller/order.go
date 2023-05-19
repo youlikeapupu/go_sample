@@ -48,11 +48,11 @@ type Spec struct {
 }
 
 func CreateOrder(c *gin.Context) {
-	db, err := database.Connect()
+    db, err := database.Connect()
     if err != nil {
         fmt.Println(err)
     }
-	// 接收post參數
+    // 接收post參數
     var order OrderReq
     c.BindJSON(&order)
 
